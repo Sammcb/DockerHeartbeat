@@ -1,0 +1,66 @@
+heartbeat:
+  monitors:
+    - type: http
+      id: http-kibana
+      name: Kibana http
+      urls: ["kibana:5601"]
+      username: ${ADMIN_USER}
+      password: ${ADMIN_PASSWORD}
+      schedule: '@every 30s'
+    - type: http
+      id: http-elastic
+      name: Elastic http
+      urls: ["elasticsearch:9200"]
+      username: ${ADMIN_USER}
+      password: ${ADMIN_PASSWORD}
+      schedule: '@every 30s'
+    - type: http
+      id: http-logstash
+      name: Logstash http
+      urls: ["logstash:9600"]
+      schedule: '@every 30s'
+    - type: http
+      id: http-filebeat
+      name: Filebeat http
+      urls: ["filebeat:5066"]
+      schedule: '@every 30s'
+    - type: http
+      id: http-auditbeat
+      name: Auditbeat http
+      urls: ["auditbeat:5066"]
+      schedule: '@every 30s'
+    - type: http
+      id: http-metricbeat
+      name: Metricbeat http
+      urls: ["metricbeat:5066"]
+      schedule: '@every 30s'
+    - type: http
+      id: http-packetbeat
+      name: Packetbeat http
+      urls: ["packetbeat:5066"]
+      schedule: '@every 30s'
+    - type: http
+      id: http-heartbeat
+      name: Heartbeat http
+      urls: ["heartbeat:5066"]
+      schedule: '@every 30s'
+  config.monitors:
+    path: ${HB_CONF}/monitors.d/*.yml
+    reload:
+      enabled: true
+      period: 5s
+output:
+  logstash.hosts: ["logstash:5044"]
+  elasticsearch:
+    enabled: false
+    hosts: ["elasticsearch:9200"]
+    username: ${ADMIN_USER}
+    password: ${ADMIN_PASSWORD}
+setup:
+  kibana:
+    host: "kibana:5601"
+    username: ${ADMIN_USER}
+    password: ${ADMIN_PASSWORD}
+http:
+  enabled: true
+  host: 0.0.0.0
